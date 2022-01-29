@@ -1,4 +1,4 @@
-import Mousetrap from 'mousetrap'
+import 'mousetrap'
 
 type AvailableTags = 'INPUT' | 'TEXTAREA' | 'SELECT'
 
@@ -24,7 +24,9 @@ export class KeyUtils {
       }
       callback(keyboardEvent, combo)
     }
+    // @ts-expect-error
     Mousetrap.bind(keys, fn)
+    // @ts-expect-error
     return () => Mousetrap.unbind(keys)
   }
 }

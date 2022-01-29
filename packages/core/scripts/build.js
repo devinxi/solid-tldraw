@@ -3,10 +3,12 @@ const fs = require('fs')
 const esbuild = require('esbuild')
 const { gzip } = require('zlib')
 const pkg = require('../package.json')
-
+const path = require('path')
+const alias = require('esbuild-plugin-alias')
 const { log } = console
 
 async function main() {
+  await esbuild.init
   if (fs.existsSync('./dist')) {
     fs.rmSync('./dist', { recursive: true }, e => {
       if (e) {
@@ -15,10 +17,14 @@ async function main() {
     })
   }
 
-  const deps = [...Object.keys(pkg.dependencies)]
+  const deps = [
+    ...Object.keys(pkg.dependencies),
+    ...Object.keys(pkg.peerDependencies),
+    'solid-js/store',
+  ]
 
   try {
-    esbuild.buildSync({
+    await esbuild.build({
       entryPoints: ['./src/index.ts'],
       outdir: 'dist/cjs',
       minify: false,
@@ -31,9 +37,14 @@ async function main() {
       external: deps,
       metafile: true,
       sourcemap: true,
+      plugins: [
+        alias({
+          mobx: path.join(__dirname, '/../src/solid-mobx.ts'),
+        }),
+      ],
     })
 
-    const esmResult = esbuild.buildSync({
+    const esmResult = await esbuild.build({
       entryPoints: ['./src/index.ts'],
       outdir: 'dist/esm',
       minify: false,

@@ -125,7 +125,7 @@ export const Canvas = observer(function Renderer<S extends TLReactShape>({
               <Shape
                 key={'shape_' + shape.id}
                 shape={shape}
-                asset={shape.props.assetId ? assets[shape.props.assetId] : undefined}
+                // asset={shape.props.assetId ? assets[shape.props.assetId] : undefined}
                 isEditing={shape === editingShape}
                 isHovered={shape === hoveredShape}
                 isBinding={shape === bindingShape}

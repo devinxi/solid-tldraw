@@ -2,6 +2,7 @@
 import { action, observable, makeObservable, computed, observe } from 'mobx'
 import type { TLBinding, TLEventMap } from '~types'
 import type { TLApp, TLShape, TLShapeModel } from '~lib'
+import { createEffect } from 'solid-js'
 
 export interface TLPageModel<S extends TLShape = TLShape> {
   id: string
@@ -48,7 +49,12 @@ export class TLPage<S extends TLShape = TLShape, E extends TLEventMap = TLEventM
             const ShapeClass = this.app.getShapeClass(shape.type)
             return new ShapeClass(shape)
           })
-    shapeInstances.forEach(instance => observe(instance, this.app.saveState))
+    // shapeInstances.forEach(instance =>
+    //   createEffect(() => {
+    //     instance
+    //     this.app.saveState()
+    //   })
+    // )
     this.shapes.push(...shapeInstances)
     this.bump()
     this.app.saveState()

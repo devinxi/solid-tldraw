@@ -6,7 +6,8 @@
     "rootDir": "src",
     "baseUrl": ".",
     "paths": {
-      "~*": ["./src/*"]
+      "~*": ["./src/*"],
+      "mobx": ["./src/solid-mobx.ts"]
     },
     "experimentalDecorators": true,
     "useDefineForClassFields": true

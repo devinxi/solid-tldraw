@@ -58,6 +58,7 @@ export abstract class TLShape<P extends TLShapeProps = TLShapeProps, M = any> {
     const defaultProps = this.constructor['defaultProps']
     this.type = type
     this.props = { ...defaultProps, ...props }
+    debugger
     makeObservable(this)
   }
 
@@ -89,6 +90,7 @@ export abstract class TLShape<P extends TLShapeProps = TLShapeProps, M = any> {
   abstract getBounds: () => TLBounds
 
   @computed get id() {
+    console.log(this, this.props)
     return this.props.id
   }
 
